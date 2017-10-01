@@ -7,11 +7,7 @@ import (
 	"strconv"
 )
 
-func Version() string {
-	return "0.2.2"
-}
-
-// serverOpts contains parameters for server.NewServer()
+// ServerOpts contains parameters for server.NewServer()
 type ServerOpts struct {
 	// The factory that will be used to create a new FTPDriver instance for
 	// each client connection. This is a mandatory option.
@@ -27,7 +23,7 @@ type ServerOpts struct {
 	Hostname string
 
 	// Public IP of the server
-	PublicIp string
+	PublicIP string
 
 	// Passive ports
 	PassivePorts string
@@ -50,7 +46,7 @@ type ServerOpts struct {
 
 	WelcomeMessage string
 
-	// A logger implementation, if nil the StdLogger is used
+	// A logger implementation, if nil the stdLogger is used
 	Logger Logger
 }
 
@@ -100,7 +96,7 @@ func serverOptsWithDefaults(opts *ServerOpts) *ServerOpts {
 		newOpts.Auth = opts.Auth
 	}
 
-	newOpts.Logger = &StdLogger{}
+	newOpts.Logger = &stdLogger{}
 	if opts.Logger != nil {
 		newOpts.Logger = opts.Logger
 	}
@@ -110,7 +106,7 @@ func serverOptsWithDefaults(opts *ServerOpts) *ServerOpts {
 	newOpts.CertFile = opts.CertFile
 	newOpts.ExplicitFTPS = opts.ExplicitFTPS
 
-	newOpts.PublicIp = opts.PublicIp
+	newOpts.PublicIP = opts.PublicIP
 	newOpts.PassivePorts = opts.PassivePorts
 
 	return &newOpts
@@ -229,7 +225,7 @@ func (server *Server) ListenAndServe() error {
 	return nil
 }
 
-// Gracefully stops a server. Already connected clients will retain their connections
+// Shutdown gracefully stops a server. Already connected clients will retain their connections
 func (server *Server) Shutdown() error {
 	if server.listener != nil {
 		return server.listener.Close()

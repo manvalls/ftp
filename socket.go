@@ -10,7 +10,7 @@ import (
 
 // A data socket is used to send non-control data between the client and
 // server.
-type DataSocket interface {
+type dataSocket interface {
 	Host() string
 
 	Port() int
@@ -32,7 +32,7 @@ type ftpActiveSocket struct {
 	logger Logger
 }
 
-func newActiveSocket(remote string, port int, logger Logger, sessionID string) (DataSocket, error) {
+func newActiveSocket(remote string, port int, logger Logger, sessionID string) (dataSocket, error) {
 	connectTo := net.JoinHostPort(remote, strconv.Itoa(port))
 
 	logger.Print(sessionID, "Opening active data connection to "+connectTo)
@@ -92,7 +92,7 @@ type ftpPassiveSocket struct {
 	tlsConfing *tls.Config
 }
 
-func newPassiveSocket(host string, port int, logger Logger, sessionID string, tlsConfing *tls.Config) (DataSocket, error) {
+func newPassiveSocket(host string, port int, logger Logger, sessionID string, tlsConfing *tls.Config) (dataSocket, error) {
 	socket := new(ftpPassiveSocket)
 	socket.ingress = make(chan []byte)
 	socket.egress = make(chan []byte)

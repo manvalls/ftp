@@ -1,4 +1,6 @@
 /*
+Package ftp implements an FTP server
+
 http://tools.ietf.org/html/rfc959
 
 http://www.faqs.org/rfcs/rfc2389.html
@@ -16,14 +18,14 @@ import (
 	"log"
 )
 
-type Command interface {
+type command interface {
 	IsExtend() bool
 	RequireParam() bool
 	RequireAuth() bool
 	Execute(*Conn, string)
 }
 
-type commandMap map[string]Command
+type commandMap map[string]command
 
 var (
 	commands = commandMap{
@@ -275,9 +277,9 @@ func (cmd commandEprt) RequireAuth() bool {
 func (cmd commandEprt) Execute(conn *Conn, param string) {
 	delim := string(param[0:1])
 	parts := strings.Split(param, delim)
-	addressFamily, err := strconv.Atoi(parts[1])
+	addressFamily, _ := strconv.Atoi(parts[1])
 	host := parts[2]
-	port, err := strconv.Atoi(parts[3])
+	port, _ := strconv.Atoi(parts[3])
 	if addressFamily != 1 && addressFamily != 2 {
 		conn.writeMessage(522, "Network protocol not supported, use (1,2)")
 		return
@@ -708,7 +710,7 @@ func (cmd commandRetr) Execute(conn *Conn, param string) {
 	if err == nil {
 		defer data.Close()
 		conn.writeMessage(150, fmt.Sprintf("Data transfer starting %v bytes", bytes))
-		err = conn.sendOutofBandDataWriter(data)
+		conn.sendOutofBandDataWriter(data)
 	} else {
 		conn.writeMessage(551, "File not available")
 	}

@@ -2,15 +2,11 @@
 
 A FTP server framework forked from [github.com/yob/graval](http://github.com/yob/graval) and changed a lot.
 
-Full documentation for the package is available on [godoc](http://godoc.org/github.com/goftp/server)
-
-## Version
-
-    v0.2.1104
+Full documentation for the package is available on [godoc](http://godoc.org/github.com/manvalls/ftp)
 
 ## Installation
 
-    go get github.com/goftp/server
+    go get github.com/manvalls/ftp
 
 ## Usage
 
@@ -38,6 +34,7 @@ details:
 
 * Lunny Xiao <xiaolunwen@gmail.com>
 * James Healy <james@yob.id.au> [http://www.yob.id.au](http://www.yob.id.au)
+* Manuel Valls <manolo@vlrz.es>
 
 ## Warning
 

@@ -5,32 +5,32 @@ import (
 	"log"
 )
 
+// Logger wraps several logging methods
 type Logger interface {
-	Print(sessionId string, message interface{})
-	Printf(sessionId string, format string, v ...interface{})
-	PrintCommand(sessionId string, command string, params string)
-	PrintResponse(sessionId string, code int, message string)
+	Print(sessionID string, message interface{})
+	Printf(sessionID string, format string, v ...interface{})
+	PrintCommand(sessionID string, command string, params string)
+	PrintResponse(sessionID string, code int, message string)
 }
 
-// Use an instance of this to log in a standard format
-type StdLogger struct{}
+type stdLogger struct{}
 
-func (logger *StdLogger) Print(sessionId string, message interface{}) {
-	log.Printf("%s  %s", sessionId, message)
+func (logger *stdLogger) Print(sessionID string, message interface{}) {
+	log.Printf("%s  %s", sessionID, message)
 }
 
-func (logger *StdLogger) Printf(sessionId string, format string, v ...interface{}) {
-	logger.Print(sessionId, fmt.Sprintf(format, v...))
+func (logger *stdLogger) Printf(sessionID string, format string, v ...interface{}) {
+	logger.Print(sessionID, fmt.Sprintf(format, v...))
 }
 
-func (logger *StdLogger) PrintCommand(sessionId string, command string, params string) {
+func (logger *stdLogger) PrintCommand(sessionID string, command string, params string) {
 	if command == "PASS" {
-		log.Printf("%s > PASS ****", sessionId)
+		log.Printf("%s > PASS ****", sessionID)
 	} else {
-		log.Printf("%s > %s %s", sessionId, command, params)
+		log.Printf("%s > %s %s", sessionID, command, params)
 	}
 }
 
-func (logger *StdLogger) PrintResponse(sessionId string, code int, message string) {
-	log.Printf("%s < %d %s", sessionId, code, message)
+func (logger *stdLogger) PrintResponse(sessionID string, code int, message string) {
+	log.Printf("%s < %d %s", sessionID, code, message)
 }
